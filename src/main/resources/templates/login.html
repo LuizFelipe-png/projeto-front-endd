@@ -1,0 +1,30 @@
+<!doctype html>
+<!--
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this template
+-->
+<html xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <!-- Define o título da página exibido na aba do navegador. -->
+    <title>TODO supply a title</title>
+    <!-- Define a codificação de caracteres usada pelo documento. -->
+    <meta charset="UTF-8" />
+    <!-- Configuração de viewport para responsividade em dispositivos móveis. -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  </head>
+  <body>
+    <!-- Formulário de login que envia os dados para /logar via POST. -->
+    <form th:action="@{/logar}" th:object="${credenciais}" method="post">
+      <!-- Campo para o email do usuário. -->
+      <label>E-mail: </label>
+      <input type="email" th:field="*{email}" />
+      <br />
+      <!-- Campo para a senha do usuário. -->
+      <label>Senha: </label>
+      <input type="password" th:field="*{senha}" />
+      <br />
+      <!-- Botão para enviar o formulário de login. -->
+      <button type="submit">Logar</button>
+    </form>
+  </body>
+</html>
