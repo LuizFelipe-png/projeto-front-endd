@@ -4,6 +4,7 @@
  */
 package com.bidding.system.frontend.controller;
 
+import com.bidding.system.frontend.model.UserDTO;
 import com.bidding.system.frontend.model.UserRequestDTO;
 import com.bidding.system.frontend.service.AuthService;
 import jakarta.servlet.http.HttpSession;
@@ -20,13 +21,13 @@ import org.springframework.web.bind.annotation.PostMapping;
 @Controller
 public class AuthController {
     
-    // Injeção do serviço de autenticação para delegar a lógica de login.
+    // Injeção do serviço de autenticação para delegar a lógica de login.    
     @Autowired
-    private AuthService service;
+    private AuthService restService;
     
     // Tratador para requisições GET no caminho raiz "/".
     // Retorna o nome da view Thymeleaf "index".
-    @GetMapping("/")
+    @GetMapping("/index")
     public String home(
             HttpSession session
     ) {
@@ -52,10 +53,28 @@ public class AuthController {
             HttpSession session
     ) {
         // Chama o serviço de autenticação para obter um token JWT ou similar.
-        String token = service.logar(credenciais);
+        String token = restService.logar(credenciais);
         // Armazena o token na sessão HTTP para uso posterior.
+        System.out.println("token: "+token);
         session.setAttribute("token", token);
         // Redireciona de volta para a página inicial após login bem sucedido.
         return "redirect:/";
+    }
+    
+    @GetMapping("/registrar")
+    public String registrar(
+            Model model
+    ) {
+        UserDTO newUser = new UserDTO();
+        model.addAttribute("user", newUser);
+        return "registrar";
+    }
+    
+    @PostMapping("/registrar")
+    public String mandarRegistro(
+            @ModelAttribute UserDTO user
+    ) {
+        restService.registrar(user);
+        return "redirect:/login";
     }
 }

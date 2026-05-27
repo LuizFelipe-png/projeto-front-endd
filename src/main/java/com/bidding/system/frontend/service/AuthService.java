@@ -4,10 +4,12 @@
  */
 package com.bidding.system.frontend.service;
 
+import com.bidding.system.frontend.model.UserDTO;
 import com.bidding.system.frontend.model.UserRequestDTO;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestClient;
 import org.springframework.web.client.RestTemplate;
 
 /**
@@ -15,29 +17,42 @@ import org.springframework.web.client.RestTemplate;
  */
 @Service
 public class AuthService {
-    // Cliente HTTP usado para fazer chamadas REST para a API externa.
-    private RestTemplate restTemplate = new RestTemplate();
-    // URL base da API de backend onde a autenticação é realizada.
-    private final String BASE_URL = "http://localhost:3333/api";
     
+    private final RestClient restClient;
+
     /**
      * Envia as credenciais do usuário para a API de autenticação.
      *
      * @param user objeto com email e senha enviados no formulário
      * @return token retornado pela API de autenticação
      */
-    public String logar(UserRequestDTO user) {
-        // Cria o corpo da requisição HTTP contendo o objeto UserRequestDTO.
-        HttpEntity<UserRequestDTO> body = new HttpEntity(
-                user);
+    
+    public AuthService() {
+        this.restClient = RestClient.builder()
+                // Define a base URL que será usada em todas as requisições.
+                // Depois, cada chamada só precisa informar o caminho relativo.
+                .baseUrl("http://localhost:8081")
+                .build();
+    }
+
+    public String logar(UserRequestDTO user){
         
         // Faz chamada POST para o endpoint /auth/logar e retorna o corpo da resposta.
-        return restTemplate.exchange(
-                BASE_URL + "/auth/logar",
-                HttpMethod.POST,
-                body,
-                String.class
-                ).getBody();
-       
+        return restClient.post()
+                .uri("/api/auth/logar")
+                .body(user)
+                .retrieve()
+                .body(String.class);
+    }
+    
+    public void registrar(UserDTO user ) {
+        user.setRole("FORNECEDOR");
+        String retorno = 
+            restClient
+                .post()
+                .uri("http://localhost:8081/api/autenticar/registrar")
+                .body(user)
+                .retrieve()
+                .body(String.class);
     }
 }
