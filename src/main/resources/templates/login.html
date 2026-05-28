@@ -1,32 +1,239 @@
 <!DOCTYPE html>
-<html xmlns: th = "http://www.thymeleaf.org"  lang="pt-BR">
+<html xmlns:th="http://www.thymeleaf.org" lang="pt-BR">
     <head>
-        <title>Registrar</title>
+        <title>Login</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-    </head>
-    <body class="d-flex align-items-center justify-content-center bg-white vh-100">
 
-        <form class="p-4 p-md-5 border rounded-3 bg-white" style="width: 100%; max-width: 420px;">
-            
-            <h1 class="text-center h3 mb-4 fw-bold text-dark">Login</h1>
-            
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+
+        <style>
+            /* ==========================================================================
+               1. VARIÁVEIS IDEAIS E CONFIGURAÇÃO GLOBAL
+               ========================================================================== */
+            :root {
+                --primary-color: #4f46e5;
+                --primary-hover: #4338ca;
+                --text-dark: #1e1b4b;
+            }
+
+            body {
+                font-family: 'Plus Jakarta Sans', sans-serif;
+                background-color: #ffffff;
+            }
+
+            /* ==========================================================================
+               2. ESTRUTURA DO CARD DE LOGIN
+               ========================================================================== */
+            .login-card {
+                width: 100%;
+                max-width: 420px;
+                background: #ffffff;
+                border-radius: 24px;
+                border: 1px solid #f1f5f9;
+                box-shadow: 0 10px 30px rgba(0, 0, 0, 0.06), 
+                            0 1px 8px rgba(0, 0, 0, 0.04);
+            }
+
+            /* ==========================================================================
+               3. CAMPOS DE ENTRADA (BOOTSTRAP FLOATING LABELS)
+               ========================================================================== */
+            .form-floating .form-control {
+                border-radius: 12px;
+                border: 2px solid #f1f5f9;
+                font-weight: 500;
+                color: var(--text-dark);
+                background-color: #f8fafc;
+                transition: all 0.25s ease-in-out;
+            }
+
+            .form-floating .form-control:focus {
+                background-color: #ffffff;
+                border-color: var(--primary-color);
+                box-shadow: 0 0 0 4px rgba(79, 70, 229, 0.1);
+            }
+
+            /* Espaçamento extra para o texto digitado não passar por baixo do ícone do olho */
+            .wrapper-senha {
+                position: relative;
+            }
+
+            .wrapper-senha .form-control {
+                padding-right: 50px;
+            }
+
+            /* ==========================================================================
+               4. BOTÃO MOSTRAR/OCULTAR SENHA (ÍCONE DO OLHO)
+               ========================================================================== */
+            .btn-olho {
+                position: absolute;
+                right: 16px;
+                top: 50%;
+                transform: translateY(-50%);
+                z-index: 5; /* Mantém o botão clicável acima das camadas nativas do Bootstrap */
+                display: flex;
+                align-items: center;
+                background: none;
+                border: none;
+                padding: 0;
+                color: #94a3b8;
+                cursor: pointer;
+                transition: color 0.2s;
+            }
+
+            .btn-olho:hover {
+                color: var(--primary-color);
+            }
+
+            /* Gerenciamento de estados dos SVGs (Alternância Dinâmica) */
+            .wrapper-senha .olho-fechado {
+                display: none;
+            }
+
+            .wrapper-senha .olho-aberto {
+                display: block;
+            }
+
+            /* Estado quando a classe .ver-senha está ativa via JavaScript */
+            .wrapper-senha.ver-senha .olho-fechado {
+                display: block;
+            }
+
+            .wrapper-senha.ver-senha .olho-aberto {
+                display: none;
+            }
+
+            /* ==========================================================================
+               5. LINKS E ELEMENTOS INTERATIVOS
+               ========================================================================== */
+            .link-animado {
+                color: var(--primary-color);
+                text-decoration: none;
+                font-weight: 600;
+                position: relative;
+                transition: color 0.2s ease;
+            }
+
+            .link-animado:hover {
+                color: var(--primary-hover);
+            }
+
+            /* Efeito de linha que expande no hover */
+            .link-animado::after {
+                content: '';
+                position: absolute;
+                width: 100%;
+                transform: scaleX(0);
+                height: 2px;
+                bottom: -2px;
+                left: 0;
+                background-color: var(--primary-hover);
+                transform-origin: bottom right;
+                transition: transform 0.25s ease-out;
+            }
+
+            .link-animado:hover::after {
+                transform: scaleX(1);
+                transform-origin: bottom left;
+            }
+
+            /* ==========================================================================
+               6. BOTÕES DE AÇÃO (SUBMIT E VOLTAR)
+               ========================================================================== */
+            .btn-gradient {
+                background: linear-gradient(90deg, #4f46e5, #7c3aed);
+                color: #ffffff;
+                border: none;
+                border-radius: 12px;
+                padding: 12px;
+                font-weight: 600;
+                letter-spacing: 0.5px;
+                box-shadow: 0 4px 12px rgba(79, 70, 229, 0.25);
+                transition: all 0.3s ease;
+            }
+
+            .btn-gradient:hover {
+                color: #ffffff;
+                transform: translateY(-2px);
+                box-shadow: 0 6px 20px rgba(79, 70, 229, 0.35);
+                background: linear-gradient(90deg, #4338ca, #6d28d9);
+            }
+
+            .btn-custom-outline {
+                border: 2px solid #f1f5f9;
+                color: #64748b;
+                border-radius: 12px;
+                padding: 12px;
+                font-weight: 600;
+                background-color: #ffffff;
+                transition: all 0.2s ease;
+                display: block;
+                text-align: center;
+                text-decoration: none;
+            }
+
+            .btn-custom-outline:hover {
+                background-color: #f8fafc;
+                border-color: #e2e8f0;
+                color: #334155;
+            }
+        </style>
+    </head>
+    <body class="d-flex align-items-center justify-content-center vh-100 p-3">
+
+        <form class="p-4 p-md-5 login-card">
+
+            <h1 class="text-center h2 mb-2 fw-bold" style="color: var(--text-dark); letter-spacing: -0.5px;">Seja bem-vindo</h1>
+            <p class="text-center text-muted mb-4" style="font-size: 14px;">Entre com suas credenciais para acessar</p>
+
             <div class="form-floating mb-3">
-                <input type="email" class="form-control" id="floatingInput" placeholder="name@example.com">
+                <input type="email" class="form-control" id="floatingInput" placeholder="name@example.com" required>
                 <label for="floatingInput" class="text-muted">E-mail</label>
             </div>
-            
-            <div class="form-floating mb-3">
-                <input type="password" class="form-control" id="floatingPassword" placeholder="Senha">
+
+            <div class="form-floating mb-3 wrapper-senha" id="wrapperSenha">
+                <input type="password" class="form-control" id="floatingPassword" placeholder="Senha" required>
                 <label for="floatingPassword" class="text-muted">Senha</label>
+
+                <button type="button" class="btn-olho" onclick="toggleSenha()" aria-label="Mostrar/Ocultar senha">
+                    <svg class="olho-aberto" xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 16 16">
+                        <path d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8zM1.173 8a13.133 13.133 0 0 1 1.66-2.043C4.12 4.668 5.88 3.5 8 3.5c2.12 0 3.879 1.168 5.168 2.457A13.133 13.133 0 0 1 14.828 8c-.058.087-.122.183-.195.288-.335.48-.83 1.12-1.465 1.755C11.879 11.332 10.119 12.5 8 12.5c-2.12 0-3.879-1.168-5.168-2.457A13.134 13.134 0 0 1 1.172 8z"/>
+                        <path d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5zM4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0z"/>
+                    </svg>
+                    <svg class="olho-fechado" xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 16 16">
+                        <path d="M13.359 11.238C15.06 9.72 16 8 16 8s-3-5.5-8-5.5a7.028 7.028 0 0 0-2.79.588l.77.771A5.944 5.944 0 0 1 8 3.5c2.12 0 3.879 1.168 5.168 2.457A13.134 13.134 0 0 1 14.828 8c-.058.087-.122.183-.195.288-.335.48-.83 1.12-1.465 1.755-.165.165-.337.328-.517.486l.708.709z"/>
+                        <path d="M11.297 9.176a3.5 3.5 0 0 0-4.474-4.474l.823.823a2.5 2.5 0 1 1 2.829 2.829l.822.822zm-2.943 1.299.822.822a3.5 3.5 0 0 1-4.474-4.474l.823.823a2.5 2.5 0 0 0 2.829 2.829z"/>
+                        <path d="M3.35 5.47c-.18.16-.353.322-.518.487A13.134 13.134 0 0 0 1.172 8l.195.288c.335.48.83 1.12 1.465 1.755C4.121 11.332 5.881 12.5 8 12.5c.716 0 1.39-.133 2.02-.36l.77.772A7.029 7.029 0 0 1 8 13.5C3 13.5 0 8 0 8s.939-1.721 2.641-3.238l.708.709z"/>
+                        <path fill-rule="evenodd" d="M13.646 14.354l-12-12 .708-.708 12 12-.708.708z"/>
+                    </svg>
+                </button>
             </div>
-            
-            <button type="submit" class="w-100 btn btn-lg btn-dark fw-bold mb-2">Logar</button>
-            
-            <a th:href="index" class="w-100 btn btn-lg btn-outline-secondary fw-bold">Voltar</a>
-            
+
+            <p class="text-center text-muted my-3" style="font-size: 14px;">
+                Não tem login? <a th:href="@{/registrar}" href="./registrar" class="link-animado">Cadastre-se</a>
+            </p>
+
+            <button type="submit" class="w-100 btn btn-gradient mb-3">Logar</button>
+            <button type="button" class="w-100 btn btn-custom-outline" onclick="window.history.back()">Voltar</button>
+
         </form>
 
+        <script>
+            function toggleSenha() {
+                const inputSenha = document.getElementById('floatingPassword');
+                const wrapper = document.getElementById('wrapperSenha');
+                
+                if (inputSenha.type === 'password') {
+                    inputSenha.type = 'text';
+                    wrapper.classList.add('ver-senha');
+                } else {
+                    inputSenha.type = 'password';
+                    wrapper.classList.remove('ver-senha');
+                }
+            }
+        </script>
     </body>
 </html>

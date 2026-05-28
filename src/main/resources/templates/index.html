@@ -1,23 +1,123 @@
-<!doctype html>
-<!--
-Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
-Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this template
--->
-<html>
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="pt-BR">
   <head>
-    <!-- Define o título da página exibido na aba do navegador. -->
-    <title>TODO supply a title</title>
-    <!-- Define a codificação de caracteres usada pelo documento. -->
+    <title>Início</title>
     <meta charset="UTF-8" />
-    <!-- Configuração de viewport para responsividade em dispositivos móveis. -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+    
+    <style>
+      :root {
+        --primary-color: #4f46e5;
+        --primary-hover: #4338ca;
+        --text-dark: #1e1b4b;
+        --text-muted: #64748b;
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: 'Plus Jakarta Sans', sans-serif;
+        background-color: #ffffff; /* Fundo limpo combinando com o ecossistema */
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 100vh;
+        padding: 20px;
+      }
+
+      /* Card Assemble */
+      .card {
+        background: #fff;
+        border: 1px solid #f1f5f9;
+        border-radius: 24px;
+        padding: 48px 40px;
+        width: 100%;
+        max-width: 420px;
+        text-align: center;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.06), 0 1px 8px rgba(0, 0, 0, 0.04);
+      }
+
+      h1 {
+        font-size: 26px;
+        font-weight: 700;
+        color: var(--text-dark);
+        margin-bottom: 8px;
+        letter-spacing: -0.5px;
+      }
+
+      p {
+        font-size: 14px;
+        color: var(--text-muted);
+        margin-bottom: 32px;
+        line-height: 1.5;
+      }
+
+      .divider {
+        height: 2px;
+        background: #f1f5f9;
+        margin-bottom: 32px;
+        border-radius: 2px;
+      }
+
+      /* Botões Modernizados */
+      .btn {
+        display: block;
+        width: 100%;
+        padding: 14px;
+        border-radius: 12px;
+        font-size: 16px;
+        font-weight: 600;
+        text-align: center;
+        text-decoration: none;
+        cursor: pointer;
+        transition: all 0.3s ease;
+      }
+
+      /* Botão Principal Gradiente */
+      .btn-primary {
+        background: linear-gradient(90deg, #4f46e5, #7c3aed);
+        color: #fff;
+        border: none;
+        margin-bottom: 12px;
+        box-shadow: 0 4px 12px rgba(79, 70, 229, 0.25);
+      }
+
+      .btn-primary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(79, 70, 229, 0.35);
+        background: linear-gradient(90deg, #4338ca, #6d28d9);
+      }
+
+      /* Botão Secundário Outline */
+      .btn-secondary {
+        background: #fff;
+        color: var(--text-muted);
+        border: 2px solid #f1f5f9;
+      }
+
+      .btn-secondary:hover {
+        background-color: #f8fafc;
+        border-color: #e2e8f0;
+        color: #334155;
+      }
+    </style>
   </head>
   <body>
-    <!-- Conteúdo estático que será exibido na página inicial. -->
-    <div>Bem vindo a página inicial</div>
-    <div>
-        <button><a href="./login">Login</a></button>
-        <button><a href="./registrar">Cadastrar</a></button>
+    <div class="card">
+      <h1>Bem-vindo</h1>
+      <p>Escolha como deseja acessar a plataforma para continuar.</p>
+      
+      <div class="divider"></div>
+      
+      <a th:href="@{/login}" href="./login" class="btn btn-primary">Entrar</a>
+      <a th:href="@{/registrar}" href="./registrar" class="btn btn-secondary">Criar conta</a>
     </div>
   </body>
 </html>
