@@ -21,7 +21,6 @@
                 background-color: #ffffff;
             }
 
-            /* Card de Cadastro */
             .login-card {
                 width: 100%;
                 max-width: 420px;
@@ -46,7 +45,6 @@
                 box-shadow: 0 0 0 4px rgba(79, 70, 229, 0.1);
             }
 
-            /* --- POSICIONAMENTO DO OLHO --- */
             .wrapper-senha {
                 position: relative;
             }
@@ -80,7 +78,6 @@
             .wrapper-senha.ver-senha .olho-fechado { display: block; }
             .wrapper-senha.ver-senha .olho-aberto { display: none; }
 
-            /* Link Animado */
             .link-animado {
                 color: var(--primary-color);
                 text-decoration: none;
@@ -107,7 +104,6 @@
                 transform-origin: bottom left;
             }
 
-            /* Botão Principal */
             .btn-gradient {
                 background: linear-gradient(90deg, #4f46e5, #7c3aed);
                 color: #ffffff;
@@ -127,7 +123,6 @@
                 background: linear-gradient(90deg, #4338ca, #6d28d9);
             }
 
-            /* Botão Voltar */
             .btn-custom-outline {
                 border: 2px solid #f1f5f9;
                 color: #64748b;
@@ -150,23 +145,23 @@
     </head>
     <body class="d-flex align-items-center justify-content-center vh-100 p-3">
 
-        <form class="p-4 p-md-5 login-card">
+        <form class="p-4 p-md-5 login-card" th:action="@{/registrar}" th:object="${user}" method="POST">
 
             <h1 class="text-center h2 mb-2 fw-bold" style="color: var(--text-dark); letter-spacing: -0.5px;">Crie sua conta</h1>
             <p class="text-center text-muted mb-4" style="font-size: 14px;">Preencha os dados abaixo para se cadastrar</p>
 
             <div class="form-floating mb-3">
-                <input type="text" class="form-control" id="floatingUser" placeholder="Nome de usuário" required>
+                <input type="text" class="form-control" id="floatingUser" placeholder="Nome de usuário" th:field="*{nome}" required>
                 <label for="floatingUser" class="text-muted">Usuário</label>
             </div>
 
             <div class="form-floating mb-3">
-                <input type="email" class="form-control" id="floatingInput" placeholder="name@example.com" required>
+                <input type="email" class="form-control" id="floatingInput" placeholder="name@example.com" th:field="*{email}" required>
                 <label for="floatingInput" class="text-muted">E-mail</label>
             </div>
 
             <div class="form-floating mb-3 wrapper-senha" id="wrapperSenha">
-                <input type="password" class="form-control" id="floatingPassword" placeholder="Senha" required>
+                <input type="password" class="form-control" id="floatingPassword" placeholder="Senha" th:field="*{senha}" required>
                 <label for="floatingPassword" class="text-muted">Senha</label>
 
                 <button type="button" class="btn-olho" onclick="toggleSenha()" aria-label="Mostrar/Ocultar senha">
@@ -187,7 +182,7 @@
                 Já tem uma conta? <a th:href="@{/login}" href="./login" class="link-animado">Entre aqui</a>
             </p>
 
-            <input class="btn btn-primary" type="submit" value="registrar" href="/login" >
+            <button class="w-100 btn btn-gradient mb-3" type="submit">Registrar</button>
 
             <button type="button" class="w-100 btn btn-custom-outline" onclick="window.history.back()">Voltar</button>
 

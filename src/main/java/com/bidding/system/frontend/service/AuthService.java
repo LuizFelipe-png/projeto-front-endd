@@ -1,58 +1,37 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package com.bidding.system.frontend.service;
 
 import com.bidding.system.frontend.model.UserDTO;
 import com.bidding.system.frontend.model.UserRequestDTO;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpMethod;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClient;
-import org.springframework.web.client.RestTemplate;
 
-/**
- * Serviço responsável por comunicação com a API de autenticação externa.
- */
 @Service
 public class AuthService {
     
     private final RestClient restClient;
 
-    /**
-     * Envia as credenciais do usuário para a API de autenticação.
-     *
-     * @param user objeto com email e senha enviados no formulário
-     * @return token retornado pela API de autenticação
-     */
-    
     public AuthService() {
-        this.restClient = RestClient.builder()
-                // Define a base URL que será usada em todas as requisições.
-                // Depois, cada chamada só precisa informar o caminho relativo.
-                .baseUrl("http://localhost:9000")
-                .build();
+        this.restClient = RestClient.create("http://localhost:8080");
     }
 
-    public String logar(UserRequestDTO user){
-        
-        // Faz chamada POST para o endpoint /auth/logar e retorna o corpo da resposta.
+    public String logar(UserRequestDTO user) {
         return restClient.post()
-                .uri("/auth/logar")
+                .uri("/api/auth/logar")
+                .contentType(MediaType.APPLICATION_JSON)
                 .body(user)
                 .retrieve()
                 .body(String.class);
     }
     
-    public void registrar(UserDTO user ) {
-        user.setRole("FORNECEDOR");
-        String retorno = 
-            restClient
-                .post()
-                .uri("/auth/registrar")
+    public void registrar(UserDTO user) {
+        String retorno = restClient.post()
+                .uri("/api/auth/registrar")
+                .contentType(MediaType.APPLICATION_JSON)
                 .body(user)
                 .retrieve()
                 .body(String.class);
+                
+        System.out.println("Resposta do Back-end: " + retorno);
     }
 }

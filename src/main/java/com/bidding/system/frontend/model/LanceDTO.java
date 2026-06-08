@@ -89,9 +89,4 @@ public class LanceDTO {
     public void setIdUsuario(long idUsuario) {
         this.idUsuario = idUsuario;
     }
-    
-    
-    
-    
-    
 }
