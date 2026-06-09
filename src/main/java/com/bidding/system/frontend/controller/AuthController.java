@@ -49,4 +49,4 @@ public class AuthController {
         restService.registrar(user);
         return "redirect:/login";
     }
-}
+}   
