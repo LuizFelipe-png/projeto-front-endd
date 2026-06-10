@@ -8,27 +8,24 @@ package com.bidding.system.frontend.model;
  *
  * @author Usuario
  */
-// Classe de transferência de dados (Data Transfer Object) para usuários
-// DTO é usado para transferir dados entre camadas da aplicação (Controller -> Service -> Repository)
 public class UserDTO {
     private Long id;
     private String nome;
     private String email;
     private String senha;
-    private String role;
     private String confirmarSenha;
+    private String role;
 
-    // Construtor vazio (padrão do JavaBeans)
     public UserDTO() {
     }
 
-    public UserDTO(Long id, String nome, String email, String senha, String role, String confirmarSenha) {
+    public UserDTO(Long id, String nome, String email, String senha, String confirmarSenha, String role) {
         this.id = id;
         this.nome = nome;
         this.email = email;
         this.senha = senha;
-        this.role = role;
         this.confirmarSenha = confirmarSenha;
+        this.role = role;
     }
 
     public Long getId() {
@@ -63,14 +60,6 @@ public class UserDTO {
         this.senha = senha;
     }
 
-    public String getRole() {
-        return role;
-    }
-
-    public void setRole(String role) {
-        this.role = role;
-    }
-
     public String getConfirmarSenha() {
         return confirmarSenha;
     }
@@ -79,5 +68,12 @@ public class UserDTO {
         this.confirmarSenha = confirmarSenha;
     }
 
-    
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
+
 }

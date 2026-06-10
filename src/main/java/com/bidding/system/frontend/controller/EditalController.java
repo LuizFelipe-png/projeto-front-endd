@@ -16,14 +16,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 @RequestMapping("/editais")
 public class EditalController {
-    
+
     @GetMapping("/list")
-    public String listar(HttpSession session){
+    public String listar(HttpSession session) {
         Object token = session.getAttribute("token");
-        if(token == (null)){
+        if (token == (null)) {
             return "redirect:/login";
         }
-        return ""
-                + "editais";
+        return "editais";
     }
 }
